@@ -24,10 +24,10 @@ The newly-improved calibration document consists of lines of text; each line ori
 
 For example:
 
-> 1abc2
-pqr3stu8vwx
-a1b2c3d4e5f
-treb7uchet
+> 1abc2<br>
+pqr3stu8vwx<br>
+a1b2c3d4e5f<br>
+treb7uchet<br>
 
 In this example, the calibration values of these four lines are **12**, **38**, **15**, and **77**. Adding these together produces **142**.
 
@@ -43,13 +43,13 @@ Your calculation isn't quite right. It looks like some of the digits are actuall
 
 Equipped with this new information, you now need to find the real first and last digit on each line. For example:
 
-> two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen
+> two1nine<br>
+eightwothree<br>
+abcone2threexyz<br>
+xtwone3four<br>
+4nineeightseven2<br>
+zoneight234<br>
+7pqrstsixteen<br>
 
 In this example, the calibration values are **29**, **83**, **13**, **24**, **42**, **14**, and **76**. Adding these together produces **281**.
 
@@ -74,11 +74,11 @@ You play several games and record the information from each game (your puzzle in
 
 For example, the record of a few games might look like this:
 
-> Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+> Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green<br>
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue<br>
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red<br>
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red<br>
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green<br>
 
 In **game 1**, three sets of cubes are revealed from the bag (and then put back again). The first set is** 3 blue** cubes and** 4 red** cubes; the second set is **1 red** cube, **2 green** cubes, and **6 blue** cubes; the third set is only **2 green** cubes.
 
@@ -100,11 +100,11 @@ As you continue your walk, the Elf poses a second question: in each game you pla
 
 Again consider the example games from earlier:
 
-> Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+> Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green<br>
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue<br>
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red<br>
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red<br>
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green<br>
 
 In **game 1**, the game could have been played with as few as** 4 red**, **2 green**, and **6 blue **cubes. If any color had even one fewer cube, the game would have been impossible.
 **Game 2** could have been played with a minimum of **1 red**, **3 green**, and **4 blue** cubes.

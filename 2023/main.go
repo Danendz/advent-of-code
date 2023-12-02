@@ -109,21 +109,31 @@ func day_2_part_2() {
 func day_1_part_2() {
 	total := 0
 	strNums := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+
+	var getStrNum = func(passedStr string) int {
+		num := -1
+		for i, strNum := range strNums {
+			if strings.Contains(passedStr, strNum) {
+				num = i + 1
+				break
+			}
+		}
+		return num
+	}
+
 	scanFile("./inputs/task_1_part_2.txt", func(s string) {
 		str := ""
 		passedStr := ""
 
-	out:
 		for i := 0; i < len(s); i++ {
 			_, err := strconv.Atoi(string(s[i]))
 			passedStr += string(s[i])
 
 			if len(passedStr) >= 3 {
-				for i, strNum := range strNums {
-					if strings.Contains(passedStr, strNum) {
-						str += fmt.Sprint(i + 1)
-						break out
-					}
+				strNum := getStrNum(passedStr)
+				if strNum != -1 {
+					str += fmt.Sprint(strNum)
+					break
 				}
 			}
 
@@ -134,19 +144,19 @@ func day_1_part_2() {
 			str += string(s[i])
 			break
 		}
+
 		passedStr = ""
 
-	out_reverse:
 		for i := len(s) - 1; i >= 0; i-- {
 			_, err := strconv.Atoi(string(s[i]))
 			passedStr = string(s[i]) + passedStr
 
 			if len(passedStr) >= 3 {
-				for i, strNum := range strNums {
-					if strings.Contains(passedStr, strNum) {
-						str += fmt.Sprint(i + 1)
-						break out_reverse
-					}
+				strNum := getStrNum(passedStr)
+
+				if strNum != -1 {
+					str += fmt.Sprint(strNum)
+					break
 				}
 			}
 

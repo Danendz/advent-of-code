@@ -10,7 +10,234 @@ import (
 )
 
 func main() {
-	day_1_part_2()
+	day_3_part_1()
+}
+
+type LineNumber struct {
+	StartPos int
+	EndPos   int
+	Number   string
+}
+
+func isDigit(s string) bool {
+	if _, err := strconv.Atoi(s); err == nil {
+		return true
+	}
+
+	return false
+}
+
+func day_3_part_1() {
+	total := 0
+	lines := []string{}
+	scanFile("./inputs/task_3_part_2.txt", func(s string) { lines = append(lines, s) })
+	goods := [][][]int{}
+
+	for i := 0; i < len(lines); i++ {
+		goods = append(goods, [][]int{})
+		for j := 0; j < len(lines[0]); j++ {
+			goods[i] = append(goods[i], []int{})
+		}
+	}
+
+	var isSymbol = func(i int, j int, num int) bool {
+		if i < 0 || i >= len(lines) || j < 0 || j >= len(lines[0]) {
+			return false
+		}
+
+		if lines[i][j] == '*' {
+			goods[i][j] = append(goods[i][j], num)
+		}
+
+		return lines[i][j] != '.' && !(isDigit(string(lines[i][j])))
+	}
+
+	for i, line := range lines {
+		j := 0
+		for j < len(line) {
+			start := j
+			digit := ""
+			for {
+				if j >= len(line) {
+					break
+				}
+				if !isDigit(string(line[j])) {
+					break
+				}
+				digit += string(line[j])
+				j++
+			}
+
+			if digit == "" {
+				j++
+				continue
+			}
+
+			num, _ := strconv.Atoi(digit)
+
+			_ = isSymbol(i, start-1, num) || isSymbol(i, j, num)
+
+			for k := start - 1; k < j+1; k++ {
+				_ = isSymbol(i-1, k, num) || isSymbol(i+1, k, num)
+			}
+		}
+	}
+
+	for i := 0; i < len(lines); i++ {
+		for j := 0; j < len(lines[0]); j++ {
+			nums := goods[i][j]
+			if lines[i][j] == '*' && len(nums) == 2 {
+				total += nums[0] * nums[1]
+			}
+		}
+	}
+	// 	for j, char := range line {
+	// 		if _, err := strconv.Atoi(string(char)); err == nil {
+	// 			digit += string(char)
+	// 		} else {
+	// 			if digit != "" {
+	// 				startPos := j - len(digit)
+	// 				endPos := j
+	// 				if (startPos > 0 && line[startPos-1] != '.') || (endPos < len(line) && line[endPos] != '.') {
+	// 					num, _ := strconv.Atoi(digit)
+	// 					total += num
+	// 				} else {
+	// 					for k := int(math.Max(0, float64(startPos-1))); k <= endPos; k++ {
+	// 						isPrevLineMatch := i > 0 && isSymbol(string(lines[i-1][k]))
+	// 						isNextLineMatch := i+1 < len(lines) && isSymbol(string(lines[i+1][k]))
+	// 						if isPrevLineMatch || isNextLineMatch {
+	// 							num, _ := strconv.Atoi(digit)
+	// 							total += num
+	// 							fmt.Println(num)
+	// 							break
+	// 						}
+	// 					}
+	// 				}
+
+	// 				digit = ""
+	// 			}
+	// 		}
+	// 	}
+
+	// 	if digit != "" {
+	// 		startPos := (len(line) - len(digit))
+	// 		endPos := len(line) - 1
+	// 		fmt.Println(startPos, endPos)
+	// 		for k := int(math.Max(0, float64(startPos-1))); k <= endPos; k++ {
+	// 			isPrevLineMatch := i > 0 && isSymbol(string(lines[i-1][k]))
+	// 			isNextLineMatch := i+1 < len(lines) && isSymbol(string(lines[i+1][k]))
+	// 			if isPrevLineMatch || isNextLineMatch {
+	// 				num, _ := strconv.Atoi(digit)
+	// 				total += num
+	// 				fmt.Println(num)
+	// 				break
+	// 			}
+	// 		}
+	// 	}
+	// 	digit = ""
+	// }
+
+	// symbolsPosByLine := [][]int{}
+	// numbersPosByLine := [][]LineNumber{}
+	// scanFile("./inputs/task_3_part_1_demo.txt", func(s string) {
+	// 	symbolsPos := []int{}
+	// 	numbersPos := []LineNumber{}
+	// 	numberIndex := 0
+	// 	for i, char := range s {
+	// 		if _, err := strconv.Atoi(string(char)); err == nil {
+	// 			if len(numbersPos) <= numberIndex {
+	// 				numbersPos = append(numbersPos, LineNumber{
+	// 					StartPos: i,
+	// 				})
+	// 			}
+	// 			numbersPos[numberIndex].Number += string(char)
+	// 		} else {
+	// 			if len(numbersPos) > numberIndex {
+	// 				numbersPos[numberIndex].EndPos = i - 1
+	// 				numberIndex++
+	// 			}
+	// 			if char != '.' {
+	// 				symbolsPos = append(symbolsPos, i)
+	// 			}
+	// 		}
+	// 	}
+	// 	symbolsPosByLine = append(symbolsPosByLine, symbolsPos)
+	// 	numbersPosByLine = append(numbersPosByLine, numbersPos)
+	// })
+
+	// for i, numberLine := range numbersPosByLine {
+	// 	// number_loop:
+	// 	for _, number := range numberLine {
+	// 		//Searching on the same line
+	// 		symbolIndex := slices.IndexFunc(symbolsPosByLine[i], func(i int) bool {
+	// 			return i == number.StartPos-1 || i == number.EndPos+1
+	// 		})
+
+	// 		if symbolIndex != -1 {
+	// 			num, _ := strconv.Atoi(number.Number)
+	// 			total += num
+	// 			continue
+	// 		}
+
+	//Searching on previous line
+	// if i > 0 {
+	// 	startPos := number.StartPos
+	// 	endPos := number.EndPos
+	// 	index := 1
+
+	// 	for j := i; j >= 0; j-- {
+	// 		symbolIndex := slices.IndexFunc(symbolsPosByLine[j], func(i int) bool {
+	// 			return (i >= startPos-1 && i <= number.EndPos-(1*index)) || (i >= number.StartPos+(1*index) && i <= endPos+1)
+	// 		})
+
+	// 		if symbolIndex != -1 {
+	// 			fmt.Printf("number: %s, index: %d\n", number.Number, symbolIndex)
+	// 			num, _ := strconv.Atoi(number.Number)
+	// 			total += num
+	// 			continue number_loop
+	// 		} else {
+	// 			startPos--
+	// 			endPos++
+	// 			index++
+	// 		}
+	// 	}
+	// }
+
+	// 		if i > 0 {
+	// 			symbolIndex := slices.IndexFunc(symbolsPosByLine[i-1], func(i int) bool {
+	// 				return i >= number.StartPos-1 && i <= number.EndPos+1
+	// 			})
+
+	// 			if symbolIndex != -1 {
+	// 				num, _ := strconv.Atoi(number.Number)
+	// 				total += num
+	// 				continue
+	// 			}
+	// 		}
+
+	// 		//Searching on next line
+	// 		if i != len(symbolsPosByLine)-1 {
+	// 			symbolIndex := slices.IndexFunc(symbolsPosByLine[i+1], func(i int) bool {
+	// 				if number.Number == "9" {
+	// 					fmt.Println(number.StartPos, number.EndPos)
+	// 				}
+	// 				return i >= number.StartPos-1 && i <= number.EndPos+1
+	// 			})
+
+	// 			if symbolIndex != -1 {
+	// 				num, _ := strconv.Atoi(number.Number)
+	// 				total += num
+	// 				continue
+	// 			}
+	// 		}
+	// 		fmt.Printf("No symbol: %s\n", number.Number)
+	// 	}
+	// }
+
+	// fmt.Println(symbolsPosByLine)
+	// fmt.Println(numbersPosByLine)
+	fmt.Println(total)
+
 }
 
 func day_2_part_1() {

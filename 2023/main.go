@@ -4,13 +4,95 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	day_3_part_1()
+	day_4_part_2()
+}
+
+func day_4_part_2() {
+	lines := []string{}
+	totalCards := 0
+	scanFile("./inputs/task_4_part_2_demo.txt", func(s string) {
+		lines = append(lines, s)
+	})
+
+	totalCards = len(lines)
+
+	var get_matching_count = func(line string) int {
+		matchedCount := 0
+		game := strings.Split(line, ":")
+		numbers := strings.Split(game[1], "|")
+
+		winningNumbers := strings.Split(strings.Trim(numbers[0], " "), " ")
+		actualNumbers := strings.Split(strings.Trim(numbers[1], " "), " ")
+
+		for _, ch := range winningNumbers {
+			if ch == "" {
+				continue
+			}
+			if slices.Contains(actualNumbers, ch) {
+				matchedCount++
+			}
+		}
+		return matchedCount
+	}
+
+	// var recCount = func(posStart int, posEnd int) int {
+	// 	total := 0
+	// 	for i := posStart; i < posEnd; i++ {
+	// 		card := lines[i]
+	// 		winningCount := get_matching_count(card)
+	// 		if winningCount != 0 {
+	// 			total += recCount(i, winningCount)
+	// 		}
+	// 	}
+	// }
+
+	for i := 0; i < len(lines); i++ {
+		card := lines[i]
+		winningCount := get_matching_count(card)
+		repetitions := lines[i+1:i+1+winningCount]
+		for j := 0; j < len(repetitions) - 1; j++ {
+			fmt.Println(repetitions)
+			fmt.Println()
+			rep := repetitions[j]
+			winningCount := get_matching_count(rep)
+			repetitions = repetitions[j+1:]
+			repetitions = append(repetitions, lines[i+j:i+j+winningCount]...)
+			totalCards++
+		}
+	}
+	fmt.Println(totalCards)
+}
+
+func day_4_part_1() {
+	total := 0
+	scanFile("./inputs/task_4_part_1.txt", func(s string) {
+		points := 0
+		game := strings.Split(s, ":")
+		// cardNumber := strings.Split(game[0], " ")[1]
+		numbers := strings.Split(game[1], "|")
+
+		winningNumbers := strings.Split(strings.Trim(numbers[0], " "), " ")
+		actualNumbers := strings.Split(strings.Trim(numbers[1], " "), " ")
+
+		for _, ch := range winningNumbers {
+			if ch == "" {
+				continue
+			}
+			if slices.Contains(actualNumbers, ch) {
+				points = int(math.Max(float64(points*2), 1))
+			}
+		}
+		total += points
+	})
+	fmt.Println(total)
 }
 
 type LineNumber struct {
